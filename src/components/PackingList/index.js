@@ -6,15 +6,15 @@ const PackingList = ({ items, onDeleteItem, onPackItem }) => {
   let sortedItems;
   const [sortBy, setSortBy] = useState('input');
 
-  if (sortBy === 'input') sortedItems = items.sort((a, b) => a.id - b.id);
+  if (sortBy === 'input') sortedItems = [...items].sort((a, b) => a.id - b.id);
 
   if (sortBy === 'alphabetical')
-    sortedItems = items.sort((a, b) =>
+    sortedItems = [...items].sort((a, b) =>
       a.description.localeCompare(b.description)
     );
 
   if (sortBy === 'packed')
-    sortedItems = items.sort((a, b) => b.packed - a.packed);
+    sortedItems = [...items].sort((a, b) => b.packed - a.packed);
 
   return (
     <div className='list'>
