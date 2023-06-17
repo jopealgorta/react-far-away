@@ -14,7 +14,7 @@ const PackingList = ({ items, onDeleteItem, onPackItem }) => {
     );
 
   if (sortBy === 'packed')
-    sortedItems = [...items].sort((a, b) => b.packed - a.packed);
+    sortedItems = [...items].sort((a, b) => a.packed - b.packed);
 
   return (
     <div className='list'>
