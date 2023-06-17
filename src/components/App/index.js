@@ -3,22 +3,44 @@ import Logo from '../Logo';
 import Form from '../Form';
 import PackingList from '../PackingList';
 import Stats from '../Stats';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const App = () => {
   const [items, setItems] = useState([]);
 
-  const handleAddItem = (item) => setItems((items) => [...items, item]);
+  const handleAddItem = (item) => {
+    setItems((items) => [...items, item]);
+    if (localStorage.getItem('items')) {
+      const savedItems = JSON.parse(localStorage.getItem('items'));
+      localStorage.setItem('items', JSON.stringify([...savedItems, item]));
+    }
+  };
 
-  const handleDeleteItem = (itemId) =>
-    setItems((items) => items.filter((item) => itemId !== item.id));
+  const handleDeleteItem = (itemId) => {
+    const updatedItems = items.filter((item) => itemId !== item.id);
+    setItems(updatedItems);
 
-  const handlePackItem = (itemId) =>
-    setItems(
-      items.map((item) =>
-        item.id === itemId ? { ...item, packed: !item.packed } : item
-      )
+    if (localStorage.getItem('items')) {
+      localStorage.setItem('items', JSON.stringify(updatedItems));
+    }
+  };
+
+  const handlePackItem = (itemId) => {
+    const updatedItems = items.map((item) =>
+      item.id === itemId ? { ...item, packed: !item.packed } : item
     );
+
+    setItems(updatedItems);
+
+    if (localStorage.getItem('items')) {
+      localStorage.setItem('items', JSON.stringify(updatedItems));
+    }
+  };
+
+  useEffect(() => {
+    const savedItems = JSON.parse(localStorage.getItem('items'));
+    if (savedItems) setItems(savedItems);
+  }, [setItems]);
 
   return (
     <div className='app'>
