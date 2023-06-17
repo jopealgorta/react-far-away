@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import './style.css';
 
-const Form = () => {
+const Form = ({ onAddItem }) => {
   const [quantity, setQuantity] = useState(1);
   const [description, setDescription] = useState('');
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -16,7 +17,7 @@ const Form = () => {
       packed: false,
     };
 
-    console.log(newItem);
+    onAddItem(newItem);
     setDescription('');
     setQuantity(1);
   };
